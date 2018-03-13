@@ -45,6 +45,7 @@ func cala(data []float64) int {
 			return i
 		}
 	}
+
 	return -1
 }
 
