@@ -13,8 +13,8 @@ type MD5Client struct {
 
 var MD5 = MD5Client{}
 
-func (*MD5Client) Encrypt(str string) string {
-	passwordBytes := []byte(str)
+func (*MD5Client) Encrypt(password string) string {
+	passwordBytes := []byte(password)
 	sum := md5.Sum(passwordBytes)
 	result := hex.EncodeToString(sum[:])
 	return result
