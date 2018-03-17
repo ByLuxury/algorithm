@@ -32,6 +32,7 @@ func (*MD5Client) EncryptWithSalt(password string, salt string) string {
 	result := hash.Sum(nil)
 	return hex.EncodeToString(result)
 }
+
 func main() {
 	result1 := MD5.Encrypt("admin")
 	result2 := MD5.EncryptWithSalt("test",
