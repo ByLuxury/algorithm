@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"strings"
 )
 
 // 实现一个 atoi 函数，使其能将字符串转换成整数。
@@ -20,42 +21,41 @@ type MyAtoiCase struct {
 	Expected int
 }
 
-
-// MyAtoi ...
 func (myCase *MyAtoiCase) MyAtoi(str string) int {
 
-	if str == "" || rune(str[0]) == ' ' {
+	if str == "" {
 
 		return 0
 	}
-	valid := make([]int32, 0)
-	for _, v := range str {
-		if !atoiIsRange(v) && (v != '+' && v != '-') {
-			break
+	flag := 1
+	result := 0
+
+	// 找到第一个除空和+-的有效数字，第一个是无效的字符串直接返回0
+	str = strings.TrimSpace(str) // 去掉空格，筛选出有效的数
+
+Loop:
+	for i, v := range str {
+		switch true {
+		case v == '+' && i == 0:
+		case v == '-' && i == 0:
+			flag = -1
+		case atoiIsRange(v):
+			result = result*10 + int(v-'0')
+			if flag == -1 && result*flag < math.MinInt32 {
+				return math.MinInt32
+			}
+
+			if flag == 1 && result*flag > math.MaxInt32 {
+				return math.MaxInt32
+			}
+
+		default:
+			break Loop
+
 		}
-		valid = append(valid, v)
 	}
 
-	var result int
-	switch rune(str[0]) {
-
-	case '+':
-		result = calcNumber(valid[1:])
-	case '-':
-		result = calcNumber(valid[1:]) * -1
-	default:
-		result = calcNumber(valid)
-
-	}
-	switch true {
-
-	case result > math.MaxInt32:
-		return math.MaxInt32
-	case result < math.MinInt32:
-		return math.MinInt32
-	default:
-		return result
-	}
+	return result * flag
 
 }
 
@@ -65,19 +65,25 @@ func atoiIsRange(x int32) bool {
 	return x >= numbers[0] && x <= numbers[1]
 }
 
-func calcNumber(valid []int32) int {
-	var result int
-	for i := 0; i < len(valid); i++ {
-		result += (int(valid[i]) - 48) * int(math.Pow10(len(valid)-1-i))
-	}
-
-	return result
-}
-
-
 func main() {
 
 	testCase := []MyAtoiCase{
+		{
+			Input:    "  -44",
+			Expected: -44,
+		},
+		{
+			Input:    "H124",
+			Expected: 0,
+		},
+		{
+			Input:    "102 this code",
+			Expected: 102,
+		},
+		{
+			Input:    "+-12",
+			Expected: 0,
+		},
 		{
 			Input:    "1234",
 			Expected: 1234,
@@ -98,8 +104,12 @@ func main() {
 			Expected: 2147483647,
 		},
 		{
-			Input:    "-2147483649Abc",
+			Input:    "-91283472332",
 			Expected: -2147483648,
+		},
+		{
+			Input:    "18446744073709551617",
+			Expected: 2147483647,
 		},
 	}
 
