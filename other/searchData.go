@@ -1,21 +1,7 @@
-package main
-
-import "fmt"
+package other
 
 const LEN = 10000000
 
-func main() {
-	var a [LEN]int
-	//var a [LEN]int=[LEN]int{1,2,3,4,5,6,7,8,9,7}
-	for i := 0; i < len(a); i++ {
-		a[i] = i + 1
-	}
-	a[len(a) - 1] = a[6]
-	result := search(a)
-	fmt.Println(result)
-	//fmt.Println(a)
-
-}
 
 /*func search(data [LEN]int64) int64 {
 	var result int64

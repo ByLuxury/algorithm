@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package leetcode
 
 //罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。
 //
@@ -35,6 +33,13 @@ import "fmt"
 // IV IX
 // XL XC
 // CD CM
+
+// Rome2Number ...
+type Rome2Number struct {
+	Input    string
+	Expected int
+}
+
 // RomanToInt ...
 func (r *Rome2Number) RomanToInt(str string) int {
 	var RomeMap = map[rune]int{'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
@@ -67,37 +72,4 @@ func (r *Rome2Number) RomanToInt(str string) int {
 		}
 	}
 	return total
-}
-
-// Rome2Number ...
-type Rome2Number struct {
-	Input    string
-	Expected int
-}
-
-func main() {
-	testCase := []Rome2Number{
-		{
-			Input:    "IV",
-			Expected: 4,
-		},
-		{
-			Input:    "IX",
-			Expected: 9,
-		},
-		{
-			Input:    "LVIII",
-			Expected: 58,
-		},
-		{
-			Input:    "MCMXCIV",
-			Expected: 1994,
-		},
-	}
-	for _, c := range testCase {
-		actual := c.RomanToInt(c.Input)
-		if actual != c.Expected {
-			fmt.Printf("test failed:,expected:%d,got:%d\n", c.Expected, actual)
-		}
-	}
 }
