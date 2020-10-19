@@ -3,6 +3,9 @@ package leetcode
 // 三角形最小路径和 动态规划解决
 // minimumTotal
 func minimumTotal(triangle [][]int) int {
+	if len(triangle) == 0 || len(triangle[len(triangle)-1]) == 0 {
+		return  0
+	}
 
 	dp := make([]int, len(triangle[len(triangle)-1]))
 
